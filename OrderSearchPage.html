@@ -1,0 +1,32 @@
+<apex:page controller="OrderSearchController" >
+    <apex:form >
+        <apex:pageBlock id="thePb" title="Oreder Details To Search">
+            <apex:pageblockSection id="thepbs">
+                <apex:inputText value="{!searchTerm}" required="false" id="accNumber"/>
+            </apex:pageblockSection>
+            <apex:pageblockButtons location="bottom">
+                <apex:commandButton value="Search" action="{!searchOrders}" />
+                <apex:commandButton value="Clear" action="{!clear}" />
+            </apex:pageblockButtons>  
+        </apex:pageBlock>
+        
+        <apex:pageBlock title="Order Details" id="details" rendered="{! IF( orderList != null && orderList.size >0, true, false)}" >
+        
+            <apex:pageBlockTable value="{!orderList}" var="order">
+                <apex:column value="{!order.Name}" headerValue="Order Name"/>  
+                <apex:column value="{!order.OrderNumber}" headerValue="Order Number"/>  
+                <apex:column value="{!order.Account.Name}" headerValue="Customer Name"/>
+                <apex:column value="{!order.Account.AccountNumber}" headerValue="Customer Number"/>  
+            </apex:pageBlockTable>
+            
+            <apex:pageblockButtons >
+                <apex:commandButton value="First Page" rerender="details" action="{!FirstPage}" disabled="{!prev}"/>
+                <apex:commandButton value="Previous" rerender="details" action="{!previous}" disabled="{!prev}"/>
+                <apex:commandButton value="Next" rerender="details" action="{!next}" disabled="{!nxt}"/>
+                <apex:commandButton value="Last Page" rerender="details" action="{!LastPage}" disabled="{!nxt}"/>
+            </apex:pageblockButtons>
+        
+        </apex:pageBlock>
+    
+    </apex:form>
+</apex:page>
